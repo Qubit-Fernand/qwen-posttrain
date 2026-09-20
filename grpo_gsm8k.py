@@ -12,7 +12,7 @@ MODEL_PATH = 'Qwen/Qwen3-1.7B'
 MAX_SAMPLES = 200           # GRPO 更贵(每步要生成), demo 先取 200 条
 
 # 1) 数据: 只要 question 当 prompt; answer 不是训练目标, 留作 reward 的标准答案
-ds = load_dataset('openai/gsm8k', 'main', split=f'train[:{MAX_SAMPLES}]')
+ds = load_dataset('openai/gsm8k', 'main', split=f'train[:{MAX_SAMPLES}]', cache_dir='./data')
 
 def to_prompt(ex):
     return {'prompt': [{'role': 'user', 'content': ex['question']}],
