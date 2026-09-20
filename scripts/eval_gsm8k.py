@@ -25,7 +25,19 @@ tokenizer.padding_side = 'left'
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
 
+# 根据模型来源自动分配曲线颜色:
+#   baseline (./Qwen3-1.7B)  -> 灰
+#   SFT 后 (checkpoints/sft*) -> 蓝
+#   GRPO 后 (checkpoints/grpo*) -> 橙
+if 'sft' in MODEL_PATH.lower():
+    run_color = 'blue'
+elif 'grpo' in MODEL_PATH.lower():
+    run_color = 'orange'
+else:
+    run_color = 'gray'
+
 swanlab.init(project='qwen3-1.7b-eval',
+             color=run_color,
              config={'model': MODEL_PATH, 'samples': MAX_SAMPLES, 'split': 'test'})
 
 correct = 0
