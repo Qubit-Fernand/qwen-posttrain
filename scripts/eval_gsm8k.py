@@ -1,4 +1,5 @@
 # eval_gsm8k.py - 在 GSM8K test 上测模型 pass@1 准确率
+# 输出: 累计准确率(对了多少题/总共多少题), 不是单个 batch 的即时准确率
 # 用法: python eval_gsm8k.py [模型路径] [样本数]
 import re, sys
 import swanlab
@@ -46,8 +47,13 @@ for i in range(0, MAX_SAMPLES, BATCH_SIZE):
         ok = gt is not None and pred is not None and gt == pred
         correct += int(ok)
         total += 1
+    # acc 是【累计】准确率, 不是当前 batch(8 题)的即时准确率
+    # total 是累计做过的题目数; 1 个 batch = BATCH_SIZE 道题
     acc = correct / total
-    swanlab.log({'eval/acc': acc, 'step': total})
+    swanlab.log({
+        'Total Accuracy (GSM8K pass@1)': acc,
+        'Samples Done': total,
+    })
     print(f'  {total}/{MAX_SAMPLES}  acc={acc:.4f}')
 
 print(f'== final: {correct}/{total} = {correct/total:.4f} ==')
