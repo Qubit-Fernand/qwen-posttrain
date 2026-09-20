@@ -18,8 +18,21 @@ echo '== 3. 创建 conda 环境 llm-posttrain (python 3.11) =='
 conda create -y -n llm-posttrain python=3.11
 conda activate llm-posttrain
 
-echo '== 4. 安装 torch (cu124, 兼容 driver 550) =='
-pip install torch --index-url https://download.pytorch.org/whl/cu124
+echo '== 4. 检查/安装 torch (cu124) =='
+if python -c 'import torch' 2>/dev/null; then
+  VER=$(python -c 'import torch; print(torch.__version__)')
+  CUDA=$(python -c 'import torch; print(torch.cuda.is_available())')
+  echo 已存在 torch $VER, cuda_avail=$CUDA
+  if [ "$CUDA" = 'True' ]; then
+    echo 'torch 已可用, 跳过安装'
+  else
+    echo 'torch CUDA 不可用, 强制重装 cu124 版本'
+    pip install --force-reinstall torch --index-url https://download.pytorch.org/whl/cu124
+  fi
+else
+  echo '未安装 torch, 安装 cu124 版本'
+  pip install torch --index-url https://download.pytorch.org/whl/cu124
+fi
 
 echo '== 5. 安装 HF 全家桶 + swanlab (清华镜像) =='
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple   transformers trl huggingface_hub datasets accelerate peft swanlab
