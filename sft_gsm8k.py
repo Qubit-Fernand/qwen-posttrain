@@ -11,7 +11,7 @@ MODEL_PATH = "Qwen/Qwen3-1.7B"
 MAX_SAMPLES = 500          # demo 先取 500 条，跑通后再加大
 
 # 1) 数据: question -> user, answer -> assistant
-ds = load_dataset("openai/gsm8k", "main", split=f"train[:{MAX_SAMPLES}]")
+ds = load_dataset("openai/gsm8k", "main", split=f"train[:{MAX_SAMPLES}]", cache_dir="./data")
 
 def to_messages(ex):
     return {"messages": [
