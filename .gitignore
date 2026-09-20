@@ -1,0 +1,12 @@
+# 模型权重大文件: 忽略内容, 保留空占位壳
+Qwen3-1.7B/*
+!Qwen3-1.7B/.gitkeep
+
+# 数据与日志(可重新下载/运行)
+data/
+swanlog/
+checkpoints/
+.swarm/
+__pycache__/
+*.pyc
+.DS_Store
