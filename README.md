@@ -1,17 +1,20 @@
 # Qwen-PostTrain
 
-Qwen3-1.7B 在 GSM8K 上的最小后训练 demo：SFT（监督微调）+ GRPO（RL）。
+Qwen3-1.7B 在 GSM8K 上的最小后训练 demo：SFT（监督微调）+ GRPO（RL）+ baseline eval。
 
 ## 目录结构
 
 | 路径 | 内容 |
 |---|---|
-| Qwen3-1.7B/ | 模型权重（bf16，来自 HuggingFace，国内走 hf-mirror 下载） |
-| data/ | GSM8K 数据集（openai/gsm8k, config=main）：train 7473 条 / test 1319 条；字段 question + answer（answer 结尾是 井号井号 数字 的标准答案）。HF datasets 缓存格式 |
-| sft_gsm8k.py | SFT demo：前 500 条 GSM8K，监督微调学标准答案 |
-| grpo_gsm8k.py | GRPO demo：200 条 GSM8K，reward = 生成答案数字是否等于标准答案 |
-| test_swanlab.py | swanlab 监控台连通性测试脚本（官方示例） |
-| swanlog/ | swanlab 本地运行日志（test_swanlab.py 产生） |
+| scripts/ | 所有 Python 脚本 |
+| scripts/sft_gsm8k.py | SFT demo：前 500 条 GSM8K，监督微调学标准答案 |
+| scripts/grpo_gsm8k.py | GRPO demo：200 条 GSM8K，reward = 生成答案数字是否等于标准答案 |
+| scripts/eval_gsm8k.py | 在 GSM8K test 上测 pass@1（baseline / SFT 后 / GRPO 后都用它） |
+| scripts/test_swanlab.py | swanlab 监控台连通性测试（官方示例） |
+| Qwen3-1.7B/ | 模型权重（bf16，.gitkeep 占位；本地/新机器自行下载） |
+| data/ | GSM8K 数据集（openai/gsm8k, config=main）：train 7473 / test 1319；answer 结尾是 井号井号 数字 的标准答案。HF datasets arrow 缓存格式 |
+| setup_env.sh | 新机器一键复现环境（conda + torch + HF 全家桶 + swanlab） |
+| swanlog/ | swanlab 本地运行日志 |
 | checkpoints/ | 训练输出目录（跑训练后自动生成） |
 
 ## 环境
@@ -20,18 +23,24 @@ Qwen3-1.7B 在 GSM8K 上的最小后训练 demo：SFT（监督微调）+ GRPO（
 - 激活：source ~/miniconda3/etc/profile.d/conda.sh && conda activate llm-posttrain
 - 监控：swanlab（已登录 Qubit 账号）
 
-## 运行
+## 运行（都从项目根目录执行，不要 cd 进 scripts）
 
     cd ~/Qwen-PostTrain
     conda activate llm-posttrain
 
-    # 1) 监控台连通性测试（已跑通）
-    python test_swanlab.py
+    # 1) 监控台连通性测试
+    python scripts/test_swanlab.py
 
-    # 2) SFT（前 500 条，约 10-20 分钟）
-    HF_ENDPOINT=https://hf-mirror.com python sft_gsm8k.py
+    # 2) 原始模型 baseline（先 200 条快速看）
+    python scripts/eval_gsm8k.py ./Qwen3-1.7B 200
 
-    # 3) GRPO（200 条，reward 从 ~0 往上涨）
-    HF_ENDPOINT=https://hf-mirror.com python grpo_gsm8k.py
+    # 3) SFT（前 500 条，约 10-20 分钟）
+    HF_ENDPOINT=https://hf-mirror.com python scripts/sft_gsm8k.py
 
-监控面板：https://swanlab.cn/@Fernand （项目 qwen3-1.7b-sft / qwen3-1.7b-grpo）
+    # 4) GRPO（200 条，reward 从 ~0 往上涨）
+    HF_ENDPOINT=https://hf-mirror.com python scripts/grpo_gsm8k.py
+
+监控面板：https://swanlab.cn/@Fernand
+- qwen3-1.7b-eval：baseline / SFT 后 / GRPO 后的 pass@1 对比
+- qwen3-1.7b-sft：SFT loss 曲线
+- qwen3-1.7b-grpo：GRPO reward 曲线
