@@ -6,6 +6,7 @@ import swanlab
 import torch
 from datasets import load_dataset
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import PeftModel
 
 MODEL_PATH = sys.argv[1] if len(sys.argv) > 1 else './Qwen3-1.7B'
 MAX_SAMPLES = int(sys.argv[2]) if len(sys.argv) > 2 else 200
@@ -30,11 +31,11 @@ if tokenizer.pad_token is None:
 #   SFT 后 (checkpoints/sft*) -> 蓝
 #   GRPO 后 (checkpoints/grpo*) -> 橙
 if 'sft' in MODEL_PATH.lower():
-    run_color = 'blue'
+    run_color = '#4C78A8'
 elif 'grpo' in MODEL_PATH.lower():
-    run_color = 'orange'
+    run_color = '#F58518'
 else:
-    run_color = 'gray'
+    run_color = '#9E9E9E'
 
 swanlab.init(project='qwen3-1.7b-eval',
              color=run_color,

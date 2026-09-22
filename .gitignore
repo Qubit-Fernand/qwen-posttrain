@@ -1,6 +1,6 @@
 # 模型权重大文件: 忽略内容, 保留空占位壳
-Qwen3-1.7B/*
-!Qwen3-1.7B/.gitkeep
+/Qwen3-*/*
+!/Qwen3-*/.gitkeep
 
 # 数据与日志(可重新下载/运行)
 swanlog/
@@ -11,3 +11,15 @@ __pycache__/
 .DS_Store
 data/**/*.lock
 download.log
+
+# 训练运行产物；保留已跟踪的原始 GSM8K 数据集
+*.log
+data/**/cache-*.arrow
+
+# 权重及训练状态文件（防止移到其他目录后被误提交）
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+pytorch_model*.bin
+adapter_model*.bin

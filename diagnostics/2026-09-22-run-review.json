@@ -1,0 +1,147 @@
+{
+  "inspection_date": "2026-09-22",
+  "run_date": "2026-09-20",
+  "scope": "Historical log inspection only; no new training, backward pass, or parameter-update validation performed.",
+  "environment_versions_at_inspection": {
+    "torch": "2.6.0+cu124",
+    "transformers": "5.17.0",
+    "trl": "1.13.0",
+    "peft": "0.21.0",
+    "datasets": "5.0.1"
+  },
+  "source_logs_sha256": {
+    "grpo_train.log": "8ef139171fe81c08035ee633ed2ecf4fe36fc72e953ba7b70c51aeb4288819b1",
+    "eval_baseline.log": "8f8962d576e0cfa0b36b77c2543646092914c2307071f4463a8cfebe1ad10fcb",
+    "eval_sft.log": "9fd9a96ec761f70bde9891ddbe1b63314c9bf6c9b6366017303635e397317915",
+    "sft_eval_inline.log": "3d645054f956afcd1f40780122dbb8ed451c83e7305659b9a5add25efa5e679d"
+  },
+  "grpo_logged_metrics": [
+    {
+      "epoch": 0.1,
+      "grad_norm": 0.0,
+      "loss": -2.98e-09,
+      "reward": 0.125,
+      "reward_std": 0.3261,
+      "frac_reward_zero_std": 0.6,
+      "completions/mean_length": 512.0,
+      "completions/clipped_ratio": 1.0
+    },
+    {
+      "epoch": 0.2,
+      "grad_norm": 0.0,
+      "loss": -2.608e-09,
+      "reward": 0.1,
+      "reward_std": 0.2261,
+      "frac_reward_zero_std": 0.7,
+      "completions/mean_length": 512.0,
+      "completions/clipped_ratio": 1.0
+    },
+    {
+      "epoch": 0.3,
+      "grad_norm": 0.0,
+      "loss": 0.003294,
+      "reward": 0.1125,
+      "reward_std": 0.2701,
+      "frac_reward_zero_std": 0.65,
+      "completions/mean_length": 510.9,
+      "completions/clipped_ratio": 0.9875
+    },
+    {
+      "epoch": 0.4,
+      "grad_norm": 0.0,
+      "loss": -7.451e-10,
+      "reward": 0.1125,
+      "reward_std": 0.2796,
+      "frac_reward_zero_std": 0.65,
+      "completions/mean_length": 512.0,
+      "completions/clipped_ratio": 1.0
+    },
+    {
+      "epoch": 0.5,
+      "grad_norm": 0.0,
+      "loss": -2.98e-09,
+      "reward": 0.075,
+      "reward_std": 0.2366,
+      "frac_reward_zero_std": 0.75,
+      "completions/mean_length": 512.0,
+      "completions/clipped_ratio": 1.0
+    },
+    {
+      "epoch": 0.6,
+      "grad_norm": 0.0,
+      "loss": -1.49e-09,
+      "reward": 0.1,
+      "reward_std": 0.2578,
+      "frac_reward_zero_std": 0.7,
+      "completions/mean_length": 512.0,
+      "completions/clipped_ratio": 1.0
+    },
+    {
+      "epoch": 0.7,
+      "grad_norm": 0.0,
+      "loss": -1.49e-09,
+      "reward": 0.0625,
+      "reward_std": 0.1866,
+      "frac_reward_zero_std": 0.8,
+      "completions/mean_length": 512.0,
+      "completions/clipped_ratio": 1.0
+    },
+    {
+      "epoch": 0.8,
+      "grad_norm": 0.0,
+      "loss": -5.215e-09,
+      "reward": 0.1125,
+      "reward_std": 0.2701,
+      "frac_reward_zero_std": 0.65,
+      "completions/mean_length": 512.0,
+      "completions/clipped_ratio": 1.0
+    },
+    {
+      "epoch": 0.9,
+      "grad_norm": 0.0,
+      "loss": -7.451e-10,
+      "reward": 0.075,
+      "reward_std": 0.2306,
+      "frac_reward_zero_std": 0.8,
+      "completions/mean_length": 512.0,
+      "completions/clipped_ratio": 1.0
+    },
+    {
+      "epoch": 1.0,
+      "grad_norm": 0.0,
+      "loss": -2.98e-09,
+      "reward": 0.05,
+      "reward_std": 0.1306,
+      "frac_reward_zero_std": 0.8,
+      "completions/mean_length": 512.0,
+      "completions/clipped_ratio": 1.0
+    }
+  ],
+  "evaluation": {
+    "eval_baseline.log": {
+      "correct": 18,
+      "total": 200,
+      "accuracy": 0.09
+    },
+    "eval_sft.log": {
+      "correct": 16,
+      "total": 200,
+      "accuracy": 0.08
+    }
+  },
+  "inline_eval_error": "ValueError: could not convert string to float: '2,125'",
+  "inline_eval_last_reported": {
+    "samples": 140,
+    "accuracy": 0.1857,
+    "planned_samples": 200,
+    "completed": false
+  },
+  "parameter_update_verified": false,
+  "script_sha256": {
+    "scripts/eval_gsm8k.py": "43ae4afb2bedfe80fe4adf4d7c4a9652704160de880feaa13f6232cb1336c52f",
+    "scripts/grpo_gsm8k.py": "91c4b98beadd89267f873cdfcf9f9166a15326213013bcc2c96eb341e55c8e38",
+    "scripts/sft_gsm8k.py": "809f7a9335fa0a1af74b2ca90f1524e5c9d21b43dd171cb8d37972b75c67abfd",
+    "scripts/sft_then_eval.py": "c7ccee85c9f73e6305406b593f215b4cb0792c0062fe20b106c90d45f97a6a58",
+    "scripts/test_swanlab.py": "51994bf1208d5805d2f24d52e5208841076d0483215b3da426d29c2adf466151"
+  }
+}

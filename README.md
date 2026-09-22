@@ -44,3 +44,7 @@ Qwen3-1.7B 在 GSM8K 上的最小后训练 demo：SFT（监督微调）+ GRPO（
 - qwen3-1.7b-eval：baseline / SFT 后 / GRPO 后的 pass@1 对比
 - qwen3-1.7b-sft：SFT loss 曲线
 - qwen3-1.7b-grpo：GRPO reward 曲线
+
+## 当前运行状态与已知问题
+
+现有脚本已完成初步流程运行，但 GRPO 日志持续显示 `grad_norm=0`，生成几乎全部触及长度上限，且未保存 GRPO 模型。原因与参数是否更新仍待验证，不能据此声称强化学习已有效。详细证据、评估限制和排查顺序见 [Codex Memory](codex_memory.md) 与 [诊断指标](diagnostics/2026-09-22-run-review.json)。

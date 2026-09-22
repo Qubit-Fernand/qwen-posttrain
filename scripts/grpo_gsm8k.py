@@ -6,9 +6,10 @@ import swanlab
 from datasets import load_dataset
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl import GRPOConfig, GRPOTrainer
+from peft import PeftModel
 
 # ---- TODO: 模型权重下完后, 改成本地路径 ----
-MODEL_PATH = 'Qwen/Qwen3-1.7B'
+MODEL_PATH = './checkpoints/sft-gsm8k/checkpoint-64'
 MAX_SAMPLES = 200           # GRPO 更贵(每步要生成), demo 先取 200 条
 
 # 1) 数据: 只要 question 当 prompt; answer 不是训练目标, 留作 reward 的标准答案
@@ -35,7 +36,9 @@ def reward_accuracy(completions, answer, **kwargs):
     return rewards
 
 # 3) 模型
-model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, dtype='bfloat16')
+base_model = AutoModelForCausalLM.from_pretrained('./Qwen3-1.7B', dtype='bfloat16')
+model = PeftModel.from_pretrained(base_model, MODEL_PATH)
+model = model.merge_and_unload()  # 合并 LoRA 权重到 base, GRPO 需要完整模型
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 
 swanlab.init(project='qwen3-1.7b-grpo',
